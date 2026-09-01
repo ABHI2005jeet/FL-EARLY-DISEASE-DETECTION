@@ -1,0 +1,2 @@
+# Phase 1 uses only the Python standard library.
+# Later phases can add Flower, boto3, or dashboard/API dependencies as needed.

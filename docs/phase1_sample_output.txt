@@ -1,0 +1,10 @@
+python scripts/run_phase1.py
+
+Prepared UCI Heart Disease client splits
+clean_rows=297
+hospital_1: rows=99 train=80 test=19 local_accuracy=0.737
+hospital_2: rows=99 train=80 test=19 local_accuracy=0.895
+hospital_3: rows=99 train=80 test=19 local_accuracy=0.684
+FedAvg smoke test complete
+global_weight_count=13
+global_bias=-0.243842

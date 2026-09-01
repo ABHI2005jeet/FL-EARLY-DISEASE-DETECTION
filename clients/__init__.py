@@ -1,0 +1,1 @@
+"""Simulated hospital client nodes."""
