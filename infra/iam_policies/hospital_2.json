@@ -1,0 +1,23 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "WriteOwnHospitalFolder",
+      "Effect": "Allow",
+      "Action": "s3:PutObject",
+      "Resource": "arn:aws:s3:::fl-heart-disease-aps2/clients/hospital_2/*"
+    },
+    {
+      "Sid": "ReadGlobalModel",
+      "Effect": "Allow",
+      "Action": ["s3:GetObject", "s3:ListBucket"],
+      "Resource": [
+        "arn:aws:s3:::fl-heart-disease-aps2/global/*",
+        "arn:aws:s3:::fl-heart-disease-aps2"
+      ],
+      "Condition": {
+        "StringLike": { "s3:prefix": ["global/*"] }
+      }
+    }
+  ]
+}

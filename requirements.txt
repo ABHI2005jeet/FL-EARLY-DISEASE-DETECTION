@@ -1,0 +1,6 @@
+# Phase 1 uses only the Python standard library.
+# Later phases can add Flower, boto3, or dashboard/API dependencies as needed.
+
+# Phase 2+ (real AWS): required for local_cloud/aws_object_store.py and
+# local_cloud/aws_metadata_store.py, and for the Lambda handlers under lambda/.
+boto3>=1.34
