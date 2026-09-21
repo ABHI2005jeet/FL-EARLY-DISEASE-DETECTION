@@ -168,3 +168,4 @@ The application is 100% functional locally with zero cloud dependencies. When re
 - Configure per-node IAM roles scoping simulated hospital EC2 instances to strictly `clients/{hospital_id}/`.
 - Deploy Next.js frontend static build to S3 + CloudFront / AWS Amplify.
 
+-changes
