@@ -61,7 +61,17 @@ def run_federated_pipeline(
     local_epochs: int | None = None,
     learning_rate: float | None = None,
     simulate_dropout: str = "hospital_3:2",
+    store: object | None = None,
+    metadata: object | None = None,
 ) -> dict[str, object]:
+    """Run the multi-round FL loop.
+
+    By default this uses LocalObjectStore/LocalMetadataStore (local disk,
+    runtime/ reset on every run). Pass `store`/`metadata` instances (e.g.
+    AWSObjectStore/AWSMetadataStore) to run the exact same orchestration
+    logic against real AWS instead -- see scripts/run_aws_fl.py.
+    """
+
     config = load_local_config()
     actual_rounds = rounds if rounds is not None else config.total_rounds
     actual_timeout = timeout_seconds if timeout_seconds is not None else config.timeout_seconds
@@ -70,12 +80,16 @@ def run_federated_pipeline(
 
     client_ids = config.client_ids
     dropouts = parse_dropout_spec(simulate_dropout)
+    using_local_store = store is None
 
     prepare_phase1_data(client_count=len(client_ids), seed=42)
-    reset_runtime()
+    if using_local_store:
+        # Only wipe the local scratch directory when we're actually using it.
+        # Never touch a real AWS bucket/tables here.
+        reset_runtime()
 
-    store = LocalObjectStore()
-    metadata = LocalMetadataStore()
+    store = store if store is not None else LocalObjectStore()
+    metadata = metadata if metadata is not None else LocalMetadataStore()
     metadata.initialize_training(
         total_rounds=actual_rounds,
         expected_clients=client_ids,
@@ -171,9 +185,13 @@ def run_federated_pipeline(
 
     metadata.mark_training_complete()
     print("\ntraining_complete=true")
-    print("round_history=runtime/local_cloud/dynamodb/rounds.json")
-    print("model_store=runtime/local_cloud/s3")
-    print("audit_log=runtime/local_cloud/cloudtrail/events.jsonl")
+    if using_local_store:
+        print("round_history=runtime/local_cloud/dynamodb/rounds.json")
+        print("model_store=runtime/local_cloud/s3")
+        print("audit_log=runtime/local_cloud/cloudtrail/events.jsonl")
+    else:
+        print("round_history=DynamoDB (FlRoundsTable)")
+        print("model_store=S3 bucket (see AWSObjectStore bucket_name)")
 
     return {
         "training_complete": True,

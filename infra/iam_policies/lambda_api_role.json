@@ -1,0 +1,35 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "ReadGlobalModel",
+      "Effect": "Allow",
+      "Action": ["s3:GetObject", "s3:ListBucket"],
+      "Resource": [
+        "arn:aws:s3:::fl-heart-disease-aps2",
+        "arn:aws:s3:::fl-heart-disease-aps2/global/*"
+      ]
+    },
+    {
+      "Sid": "WriteSimulatedHospitalUploads",
+      "Effect": "Allow",
+      "Action": ["s3:PutObject"],
+      "Resource": "arn:aws:s3:::fl-heart-disease-aps2/clients/*"
+    },
+    {
+      "Sid": "RoundsAndCountersTableAccess",
+      "Effect": "Allow",
+      "Action": ["dynamodb:GetItem", "dynamodb:PutItem", "dynamodb:UpdateItem", "dynamodb:Scan"],
+      "Resource": [
+        "arn:aws:dynamodb:*:*:table/FlRoundsTable",
+        "arn:aws:dynamodb:*:*:table/FlUploadCountersTable"
+      ]
+    },
+    {
+      "Sid": "SelfInvokeForAsyncTraining",
+      "Effect": "Allow",
+      "Action": "lambda:InvokeFunction",
+      "Resource": "arn:aws:lambda:ap-south-2:*:function:fl-api"
+    }
+  ]
+}
