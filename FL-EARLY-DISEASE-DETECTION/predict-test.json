@@ -1,0 +1,1 @@
+{"routeKey":"POST /predict","rawPath":"/predict","requestContext":{"http":{"method":"POST"}},"body":"{\"age\": 54, \"sex\": 1, \"cp\": 2, \"trestbps\": 135, \"chol\": 230, \"fbs\": 0, \"restecg\": 1, \"thalach\": 142, \"exang\": 0, \"oldpeak\": 1.2, \"slope\": 1, \"ca\": 1, \"thal\": 2}"}

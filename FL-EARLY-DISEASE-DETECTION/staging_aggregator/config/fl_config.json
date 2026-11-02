@@ -1,0 +1,7 @@
+{
+  "client_ids": ["hospital_1", "hospital_2", "hospital_3"],
+  "total_rounds": 8,
+  "timeout_seconds": 300,
+  "local_epochs": 35,
+  "learning_rate": 0.05
+}
